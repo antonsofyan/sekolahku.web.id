@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SPMB - Sistem Penerimaan Murid Baru | sekolahku.web.id</title>
   <meta name="description" content="SPMB adalah platform PPDB Online modern berbasis CodeIgniter 4 + MySQL. Multi-level, aman, dan gratis.">
+  <meta name="keywords" content="CMS, Website Sekolah Gratis, Cara Membuat Website Sekolah, contoh website sekolah, fitur website sekolah, Sekolah, Website, Internet, Situs, CMS Sekolah, Web Sekolah, Aplikasi Sekolah, PPDB Online, PSB Online, Penerimaan Siswa Baru Online, Raport Online, Kurikulum 2013, SD, SMP, SMA, Aliyah, MTs, SMK">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
@@ -23,10 +24,11 @@
     .product-img-placeholder { background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #4f46e5; }
     .glow-btn { box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35); transition: all 0.3s; }
     .glow-btn:hover { box-shadow: 0 6px 30px rgba(37, 99, 235, 0.5); transform: translateY(-2px); }
-    .step-card { position: relative; padding-left: 3rem; }
-    .step-card::before { content: ''; position: absolute; left: 1rem; top: 2.5rem; bottom: -1.5rem; width: 2px; background: #e2e8f0; }
-    .step-card:last-child::before { display: none; }
-    .step-num { position: absolute; left: 0; top: 0; width: 2.2rem; height: 2.2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; }
+    .step-card { position: relative; padding-left: 2.5rem; }
+    @media (min-width: 640px) { .step-card { padding-left: 3rem; } }
+
+    .step-num { position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
+    @media (min-width: 640px) { .step-num { width: 2.2rem; height: 2.2rem; font-size: 0.8rem; } }
     .security-layer { border-left: 3px solid; padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-radius: 0 0.5rem 0.5rem 0; }
   </style>
 </head>
@@ -48,7 +50,7 @@
         </div>
         <div class="flex items-center gap-3">
           
-          <a href="https://drive.google.com/drive/folders/1-0T6YZukDxZ-fSbBHOgHGD9CkTpJwF_J?usp=sharing" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold glow-btn">
+          <a href="https://drive.google.com/drive/folders/1-0T6YZukDxZ-fSbBHOgHGD9CkTpJwF_J?usp=sharing" target="_blank" class="hidden sm:inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold glow-btn">
             <i class="fas fa-download"></i> Download Gratis
           </a>
         </div>
@@ -63,14 +65,14 @@
       <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500 rounded-full blur-3xl"></div>
     </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
       <div>
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.6] mb-6 max-w-4xl">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4 sm:mb-6 max-w-4xl">
           SPMB Open Source
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">untuk Sekolah Indonesia</span>
           <br>Modern, Aman, Multi-Sekolah dalam Satu Sistem
         </h1>
-        <p class="text-lg text-blue-200/80 mb-8 max-w-2xl leading-relaxed">
+        <p class="text-sm sm:text-base lg:text-lg text-blue-200/80 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
           <strong class="text-white">Sistem Penerimaan Murid Baru</strong> berbasis CodeIgniter 4 &amp; MySQL. 
            Tangani pendaftaran SD, MI, SMP, MTs, SMA, SMK, Aliyah dalam satu instalasi.
         </p>
@@ -80,20 +82,20 @@
           </a>
           
         </div>
-        <div class="flex items-center gap-3 mt-12">
-          <span class="inline-flex items-center gap-1.5 bg-blue-500/15 backdrop-blur-sm text-blue-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-blue-400/20">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-8 sm:mt-12">
+          <span class="inline-flex items-center gap-1.5 bg-blue-500/15 backdrop-blur-sm text-blue-300 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-blue-400/20">
             <i class="devicon-php-plain text-sm"></i> PHP 8.5
           </span>
-          <span class="inline-flex items-center gap-1.5 bg-yellow-500/15 backdrop-blur-sm text-yellow-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-yellow-400/20">
+          <span class="inline-flex items-center gap-1.5 bg-yellow-500/15 backdrop-blur-sm text-yellow-300 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-yellow-400/20">
             <i class="devicon-javascript-plain text-sm"></i> Javascript
           </span>
-          <span class="inline-flex items-center gap-1.5 bg-indigo-500/15 backdrop-blur-sm text-indigo-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-indigo-400/20">
+          <span class="inline-flex items-center gap-1.5 bg-indigo-500/15 backdrop-blur-sm text-indigo-300 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-indigo-400/20">
             <i class="devicon-mysql-plain text-sm"></i> MySQL 8.0
           </span>
-          <span class="inline-flex items-center gap-1.5 bg-emerald-500/15 backdrop-blur-sm text-emerald-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-emerald-400/20">
+          <span class="inline-flex items-center gap-1.5 bg-emerald-500/15 backdrop-blur-sm text-emerald-300 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-emerald-400/20">
             <i class="devicon-codeigniter-plain text-sm"></i> CodeIgniter 4
           </span>
-          <span class="inline-flex items-center gap-1.5 bg-rose-500/15 backdrop-blur-sm text-rose-300 text-xs font-semibold px-4 py-1.5 rounded-full border border-rose-400/20">
+          <span class="inline-flex items-center gap-1.5 bg-rose-500/15 backdrop-blur-sm text-rose-300 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-rose-400/20">
             <i class="devicon-bootstrap-plain text-sm"></i> CoreUI
           </span>
         </div>
@@ -115,12 +117,42 @@
   <!-- STATS -->
   <section class="py-16 bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
-        <div><div class="text-3xl font-extrabold text-blue-600">7</div><div class="text-gray-500 text-sm mt-1">Jenjang Didukung</div></div>
-        <div><div class="text-3xl font-extrabold text-blue-600">10</div><div class="text-gray-500 text-sm mt-1">Langkah Daftar</div></div>
-        <div><div class="text-3xl font-extrabold text-blue-600">3</div><div class="text-gray-500 text-sm mt-1">Level Peran</div></div>
-        <div><div class="text-3xl font-extrabold text-blue-600">Multisekolah</div><div class="text-gray-500 text-sm mt-1">1 Instalasi</div></div>
-        <div><div class="text-3xl font-extrabold text-blue-600">100%</div><div class="text-gray-500 text-sm mt-1">Open Source</div></div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
+        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-school text-blue-500 text-lg sm:text-xl"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-blue-600">7</div>
+          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Jenjang Didukung</div>
+        </div>
+        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-list-check text-emerald-500 text-lg sm:text-xl"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-blue-600">10</div>
+          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Langkah Daftar</div>
+        </div>
+        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-user-shield text-purple-500 text-lg sm:text-xl"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-blue-600">3</div>
+          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Level Peran</div>
+        </div>
+        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-building-columns text-amber-500 text-lg sm:text-xl"></i>
+          </div>
+          <div class="text-lg sm:text-2xl lg:text-3xl font-extrabold text-blue-600 leading-tight">Multi-Sekolah</div>
+          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">1 Instalasi</div>
+        </div>
+        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all duration-300">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-rose-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-lock-open text-rose-500 text-lg sm:text-xl"></i>
+          </div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-blue-600">100%</div>
+          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Open Source</div>
+        </div>
       </div>
     </div>
   </section>
@@ -218,18 +250,18 @@
         <p class="text-blue-200/70 mt-3 max-w-3xl mx-auto">SPMB lahir dari pengalaman lebih dari satu dekade mengembangkan CMS Sekolahku, platform yang sejak <strong class="text-white">2013</strong> telah digunakan oleh <strong class="text-white">1.842 sekolah</strong> di Indonesia. Dari perjalanan tersebut, kami menyadari bahwa sistem penerimaan murid baru akan berkembang lebih optimal jika dibangun sebagai aplikasi yang berdiri sendiri — lebih fokus, lebih modern, dan lebih fleksibel.</p>
         <p class="text-blue-200/70 mt-4 max-w-3xl mx-auto">Karena itu, CMS dan SPMB kini dikembangkan sebagai dua produk yang saling melengkapi. SPMB berfokus sepenuhnya pada proses penerimaan murid baru, sementara CMS tetap dikembangkan sebagai solusi pengelolaan website sekolah. Dengan pemisahan ini, masing-masing produk dapat berkembang sesuai tujuannya tanpa mengorbankan kualitas maupun pengalaman pengguna.</p>
       </div>
-      <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto mt-10">
-        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-extrabold text-white">2013</div>
-          <div class="text-xs text-blue-300 mt-1">Tahun pertama dirilis</div>
+      <div class="grid grid-cols-3 gap-4 sm:gap-6 max-w-2xl mx-auto mt-10">
+        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 text-center">
+          <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white">2013</div>
+          <div class="text-[10px] sm:text-xs text-blue-300 mt-1">Tahun pertama dirilis</div>
         </div>
-        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-extrabold text-white">1.842</div>
-          <div class="text-xs text-blue-300 mt-1">Sekolah menggunakan CMS Sekolahku</div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 text-center">
+          <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white">1.842</div>
+          <div class="text-[10px] sm:text-xs text-blue-300 mt-1">Sekolah menggunakan CMS Sekolahku</div>
         </div>
-        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-extrabold text-white">10+</div>
-          <div class="text-xs text-blue-300 mt-1">Tahun pengalaman</div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 text-center">
+          <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white sm:whitespace-nowrap">10+</div>
+          <div class="text-[10px] sm:text-xs text-blue-300 mt-1">Tahun pengalaman</div>
         </div>
       </div>
     </div>
@@ -298,7 +330,7 @@
         <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">10 Langkah Mudah Mendaftar</h2>
         <p class="text-gray-500 mt-3 max-w-xl mx-auto">Proses pendaftaran bertahap dengan progress bar yang memandu calon siswa hingga cetak formulir PDF.</p>
       </div>
-      <div class="max-w-4xl mx-auto grid sm:grid-cols-2 gap-x-16 gap-y-2">
+      <div class="max-w-4xl mx-auto grid sm:grid-cols-2 gap-x-16 gap-y-4 sm:gap-y-5">
         <div class="step-card">
           <div class="step-num bg-blue-100 text-blue-700">1</div>
           <h4 class="font-semibold text-gray-900">Identitas Diri</h4>
@@ -500,7 +532,7 @@
         <div class="bg-white rounded-3xl shadow-lg border-2 border-emerald-100 overflow-hidden card-hover">
           <div class="bg-gradient-to-r from-emerald-50 to-green-50 p-8 text-center relative">
             <div class="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full">Terbaru</div>
-            <h3 class="text-2xl font-bold text-gray-900">SPMB <span class="text-sm font-semibold text-gray-400">v2.0.0</span></h3>
+            <h3 class="text-2xl font-bold text-gray-900">SPMB <span class="text-sm font-semibold text-gray-400">v1.0.0</span></h3>
             <div class="mt-4"><span class="text-5xl font-extrabold text-emerald-600">Rp0</span><p class="text-gray-500 mt-1">Gratis Selamanya</p></div>
           </div>
           <div class="p-8">
@@ -582,7 +614,7 @@
         <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Professional Support</h2>
         <p class="text-blue-200 mt-4 text-lg max-w-2xl mx-auto">Gunakan gratis. Implementasikan bersama ahlinya.</p>
         <p class="text-blue-200/80 mt-2 max-w-2xl mx-auto">SPMB dapat digunakan tanpa biaya lisensi. Jika institusi Anda membutuhkan implementasi yang cepat, migrasi dari sistem lama, integrasi dengan sistem internal, pengembangan fitur khusus, atau pendampingan hingga sistem berjalan, kami siap membantu.</p>
-        <p class="text-yellow-300 mt-2 max-w-2xl mx-auto font-bold text-xl">Dikembangkan langsung oleh pembuat SPMB.</p>
+        <p class="text-yellow-300 mt-2 max-w-2xl mx-auto font-bold text-xl">Disupport langsung oleh pembuat SPMB.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto mb-12">
         <div class="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 card-hover">
