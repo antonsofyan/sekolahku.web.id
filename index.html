@@ -4,957 +4,704 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sekolahku.web.id — CMS Sekolahku &amp; SPMB | Open Source untuk Sekolah Indonesia</title>
-  <meta name="description" content="Ekosistem aplikasi open source untuk sekolah Indonesia: CMS Sekolahku (website profil sekolah) & SPMB (SPMB Online). Berbasis CodeIgniter 4 + MySQL. Gratis selamanya.">
+  <meta name="description" content="Ekosistem aplikasi open source untuk sekolah Indonesia: CMS Sekolahku (website profil sekolah) &amp; SPMB (penerimaan murid baru online). Berbasis CodeIgniter 4 + MySQL. Gratis selamanya.">
   <meta name="keywords" content="CMS, Website Sekolah Gratis, Cara Membuat Website Sekolah, contoh website sekolah, fitur website sekolah, Sekolah, Website, Internet, Situs, CMS Sekolah, Web Sekolah, Aplikasi Sekolah, SPMB Online, PSB Online, Penerimaan Siswa Baru Online, Kurikulum 2013, SD, SMP, SMA, Aliyah, MTs, SMK">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     * { font-family: 'Inter', sans-serif; }
-    .hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); }
-    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    .pricing-feature li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; }
-    .pricing-feature li:last-child { border-bottom: none; }
-    .blob-bg { position: relative; overflow: hidden; }
-    .blob-bg::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
-    .marquee-track { animation: scroll 25s linear infinite; }
-    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .product-img-placeholder { background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #4f46e5; }
-    .glow-btn { box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35); transition: all 0.3s; }
-    .glow-btn:hover { box-shadow: 0 6px 30px rgba(37, 99, 235, 0.5); transform: translateY(-2px); }
-    .step-card { position: relative; padding-left: 2.5rem; }
-    @media (min-width: 640px) { .step-card { padding-left: 3rem; } }
-
-    .step-num { position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
-    @media (min-width: 640px) { .step-num { width: 2.2rem; height: 2.2rem; font-size: 0.8rem; } }
-    .security-layer { border-left: 3px solid; padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-radius: 0 0.5rem 0.5rem 0; }
+    html { scroll-behavior: smooth; }
+    .hero-bg { background: #0f172a; }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .feature-row { transition: background 0.15s ease; }
+    .feature-row:hover { background: #f8fafc; }
+    .step-num { counter-increment: step; }
+    .step-num::before { content: counter(step); }
+    .timeline-line { position: relative; }
+    .timeline-line::before {
+      content: '';
+      position: absolute;
+      left: 11px; top: 0; bottom: 0;
+      width: 2px;
+      background: #e2e8f0;
+    }
+    .timeline-dot {
+      position: relative;
+      z-index: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="bg-white text-slate-800 antialiased">
 
-  <!-- NAVBAR -->
-  <nav class="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 fixed w-full z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <a href="#" class="flex items-center gap-2 shrink-0">
-          <span class="font-bold text-2xl"><span class="text-blue-600">sekolahku</span><span class="text-gray-400">.web.id</span></span>
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="text-xl font-extrabold tracking-tight">
+        <span class="text-indigo-600">sekolahku</span><span class="text-slate-400">.web.id</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#produk" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Produk</a>
+        <a href="#fitur" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Fitur</a>
+        <a href="#harga" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Harga</a>
+        <a href="#kontak" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition">Kontak</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://www.facebook.com/groups/cmssekolahku" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition">
+          <i class="fab fa-facebook"></i> Komunitas
         </a>
-        <div class="hidden md:flex items-center gap-6 lg:gap-8 ml-auto">
-          <a href="#" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Beranda</a>
-          <a href="#ekosistem" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Produk</a>
-          <a href="#fitur" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Fitur</a>
-          <a href="#teknologi" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Teknologi</a>
-          <a href="#harga" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Harga</a>
-           <a href="#kontak" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Kontak</a>
-           <a href="https://www.facebook.com/groups/cmssekolahku" target="_blank" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition font-semibold"><i class="fab fa-facebook mr-1"></i>Komunitas</a>
-         </div>
+        <a href="#harga" class="inline-flex items-center gap-2 bg-indigo-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition">
+          Unduh Gratis
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero-gradient min-h-screen flex items-center pt-16 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-[0.07]">
-      <div class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-      <div class="absolute bottom-20 right-10 w-96 h-96 bg-indigo-400 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500 rounded-full blur-3xl"></div>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
-      <div>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4 sm:mb-6 max-w-5xl">
-          Website Sekolah dan SPMB Online
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-300">Gratis untuk Sekolah Indonesia</span>
-        </h1>
-        <p class="text-sm sm:text-base lg:text-lg text-indigo-200/80 mb-2 max-w-4xl leading-relaxed">
-          <span class="font-semibold text-white">Dua Produk Open Source, Satu Ekosistem</span>
-          — CMS Sekolahku untuk website profil dan SPMB Online untuk penerimaan murid baru. Tanpa vendor lock-in, mudah dijalankan di server sendiri.
-        </p>
-        <div class="mb-6 sm:mb-8">
-          <span class="inline-flex items-center gap-1.5 bg-emerald-500/15 backdrop-blur-sm text-emerald-300 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full border border-emerald-400/20">
-            <i class="fas fa-check-circle"></i> Berdasarkan pengembangan sejak 2013 — digunakan 1.842 sekolah
-          </span>
+  <main>
+    <!-- HERO -->
+    <section class="hero-bg relative min-h-[85vh] flex items-center pt-16 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative z-10">
+        <div class="max-w-3xl">
+          <p class="text-indigo-400 text-sm font-semibold tracking-wide uppercase mb-4">Open Source untuk Sekolah Indonesia</p>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-6">
+            Website sekolah dan SPMB online, gratis selamanya
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed mb-8 max-w-2xl">
+            CMS Sekolahku untuk website profil sekolah. SPMB untuk penerimaan murid baru online.
+            Keduanya open source, dijalankan di server sendiri, tanpa biaya lisensi.
+          </p>
+          <div class="flex flex-wrap gap-3 mb-10">
+            <a href="#produk" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-500 transition">
+              Lihat Produk <i class="fas fa-arrow-right text-sm"></i>
+            </a>
+            <a href="https://cms.sekolahku.web.id/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-white border border-slate-600 px-6 py-3 rounded-lg font-medium hover:border-slate-400 transition">
+              <i class="fas fa-eye"></i> Demo CMS
+            </a>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-400">
+            <span class="flex items-center gap-2">
+              <i class="fas fa-check text-emerald-400"></i> 1.842+ sekolah
+            </span>
+            <span class="flex items-center gap-2">
+              <i class="fas fa-check text-emerald-400"></i> 15+ tahun pengembangan
+            </span>
+            <span class="flex items-center gap-2">
+              <i class="fas fa-check text-emerald-400"></i> 100% open source
+            </span>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Product Cards -->
-        <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mb-8 sm:mb-10">
-          <div class="bg-white/10 backdrop-blur-sm border border-indigo-400/20 rounded-2xl p-5 sm:p-6 hover:bg-white/15 transition">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center">
-                <i class="fas fa-globe text-indigo-300 text-lg"></i>
+    <!-- PRODUK -->
+    <section id="produk" class="py-20 bg-slate-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="max-w-2xl mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 mb-3">Dua produk, satu ekosistem</h2>
+          <p class="text-slate-600 leading-relaxed">
+            Pilih yang dibutuhkan, atau gunakan keduanya. Masing-masing bisa berdiri sendiri.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- CMS -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-8 card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center">
+                <i class="fas fa-globe text-indigo-600"></i>
               </div>
               <div>
-                <h2 class="text-white font-bold text-lg">CMS Sekolahku</h2>
-                <span class="text-indigo-300 text-xs font-semibold">v3.2.0</span>
+                <h3 class="font-bold text-slate-900">CMS Sekolahku</h3>
+                <span class="text-xs text-slate-500">v3.2.0</span>
               </div>
             </div>
-            <p class="text-indigo-200/70 text-sm leading-relaxed mb-4">CMS Website Sekolah — halaman statis, berita, agenda, galeri, guru, prestasi, menu drag-and-drop, 10 tema warna, dark mode.</p>
-            <div class="flex flex-wrap gap-2">
-              <a href="https://cms.sekolahku.web.id/" target="_blank" class="inline-flex items-center gap-2 bg-white/15 text-white border border-white/30 px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/25 transition shadow-lg">
-                <i class="fas fa-eye"></i> Lihat Demo
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              Website profil sekolah dengan editor visual, menu drag-and-drop, 3 tema tampilan, dan modul berita, agenda, galeri, guru, prestasi, ekstrakurikuler, program, testimoni, FAQ, download.
+            </p>
+            <ul class="space-y-2 mb-8">
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Halaman statis &amp; editor WYSIWYG
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> 13 halaman bawaan (profil, program, guru, prestasi, ekskul, testimoni, galeri, agenda, FAQ, berita, download, kontak)
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Menu navigasi multi-level drag &amp; drop (3 level)
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> 3 tema tampilan (Nusantara, Cakrawala, Lentera)
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Galeri dengan kategori &amp; gambar unggulan
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Prestasi dengan foto &amp; tingkat, ekstrakurikuler dengan ikon &amp; warna
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Program dengan link URL kustom, testimoni dengan foto
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Tahapan SPMB dinamis (preset SD/SMP/SMA)
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> Komentar berita (moderasi), pesan masuk
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> SEO friendly (sitemap XML, meta tags, URL slug)
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-indigo-500 text-xs"></i> CSRF protection, cache performa
+              </li>
+            </ul>
+            <div class="flex gap-3">
+              <a href="https://cms.sekolahku.web.id/" target="_blank" rel="noopener" class="flex-1 text-center border border-slate-300 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition">
+                Demo
               </a>
-              <a href="#harga" class="inline-flex items-center gap-2 bg-indigo-500 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-indigo-600 transition shadow-lg">
-                <i class="fas fa-download"></i> Download CMS
+              <a href="https://drive.google.com/drive/folders/1pL2tXABhzJ4Y8hvWGZ6fwIonap2SfeM2" target="_blank" rel="noopener" class="flex-1 text-center bg-indigo-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+                Download
               </a>
             </div>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm border border-emerald-400/20 rounded-2xl p-5 sm:p-6 hover:bg-white/15 transition">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
-                <i class="fas fa-graduation-cap text-emerald-300 text-lg"></i>
+          <!-- SPMB -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-8 card">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <i class="fas fa-graduation-cap text-emerald-600"></i>
               </div>
               <div>
-                <h2 class="text-white font-bold text-lg">SPMB</h2>
-                <span class="text-emerald-300 text-xs font-semibold">v1.0.3</span>
+                <h3 class="font-bold text-slate-900">SPMB</h3>
+                <span class="text-xs text-slate-500">v1.0.3</span>
               </div>
             </div>
-            <p class="text-emerald-200/70 text-sm leading-relaxed mb-4">Penerimaan Murid Baru Online — multi-sekolah, 10 langkah multi-step, persyaratan hybrid, dashboard real-time, keamanan berlapis.</p>
-            <div class="flex flex-wrap gap-2">
-              <a href="https://spmb.sekolahku.web.id/" target="_blank" class="inline-flex items-center gap-2 bg-white/15 text-white border border-white/30 px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/25 transition shadow-lg">
-                <i class="fas fa-eye"></i> Lihat Demo
-              </a>
-              <a href="#harga" class="inline-flex items-center gap-2 bg-emerald-500 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-emerald-600 transition shadow-lg">
-                <i class="fas fa-download"></i> Download SPMB
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- MARQUEE -->
-  <div class="bg-slate-900 border-y border-slate-700 py-3 overflow-hidden">
-    <div class="flex whitespace-nowrap marquee-track gap-16">
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-emerald-400 mr-2"></i> Halaman statis dengan editor visual — CMS Sekolahku</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-indigo-400 mr-2"></i> Multi-level navigasi drag & drop — CMS Sekolahku</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-purple-400 mr-2"></i> Berita, agenda, galeri, guru, prestasi, FAQ — CMS Sekolahku</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-rose-400 mr-2"></i> 10 tema warna + dark mode — CMS Sekolahku</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-emerald-400 mr-2"></i> Dukung 7 jenjang: SD, MI, SMP, MTs, SMA, SMK, Aliyah — SPMB</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-emerald-400 mr-2"></i> Multi-sekolah dalam 1 instalasi — SPMB</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-cyan-400 mr-2"></i> 10 langkah multi-step registration — SPMB</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-amber-400 mr-2"></i> Sistem keamanan berlapis: anti-bot, enkripsi data, pemulihan data terhapus — SPMB</span>
-      <span class="text-sm text-slate-300 font-medium mx-4"><i class="fas fa-check-circle text-slate-400 mr-2"></i> Zero frontend build — tanpa Webpack, Vite, atau Node.js</span>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <section class="py-16 bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
-        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all duration-300">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-puzzle-piece text-indigo-500 text-lg sm:text-xl"></i>
-          </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-indigo-600">15+</div>
-          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Modul CMS</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-indigo-200 transition-all duration-300">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-palette text-purple-500 text-lg sm:text-xl"></i>
-          </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-indigo-600">5</div>
-          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Tema Warna + Dark Mode</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-emerald-200 transition-all duration-300">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-school text-emerald-500 text-lg sm:text-xl"></i>
-          </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600">7</div>
-          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Jenjang SPMB</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-emerald-200 transition-all duration-300">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-list-check text-emerald-500 text-lg sm:text-xl"></i>
-          </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600">10</div>
-          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Langkah SPMB</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 sm:p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-emerald-200 transition-all duration-300">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-rose-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-lock-open text-rose-500 text-lg sm:text-xl"></i>
-          </div>
-          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600">100%</div>
-          <div class="text-gray-500 text-xs sm:text-sm mt-1 font-medium">Open Source</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- OPEN SOURCE MISI -->
-  <section class="py-16 bg-gray-50 border-y border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-indigo-100 tracking-wide">Open Source</span>
-      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mt-2 mb-6">Gratis Bukan Berarti Murahan</h2>
-      <div class="space-y-4 text-gray-600 text-base leading-relaxed max-w-5xl mx-auto">
-        <p>Banyak orang menganggap aplikasi gratis atau open source memiliki kualitas lebih rendah. Faktanya, <strong class="text-gray-900">Linux, Python, VS Code, dan Android</strong> membuktikan bahwa perangkat lunak open source mampu menjadi fondasi teknologi yang digunakan jutaan orang di seluruh dunia.</p>
-        <p>SPMB dikembangkan dengan standar keamanan dan arsitektur modern. Seluruh kode sumber tersedia secara terbuka sehingga dapat diaudit, diperiksa, dan dikembangkan oleh siapa pun. Kami memilih model open source karena misi pendidikan, bukan karena mengorbankan kualitas.</p>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 max-w-5xl mx-auto">
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-          <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3"><i class="fas fa-code text-slate-600"></i></div>
-          <p class="font-semibold text-gray-900 text-sm">Open Source &amp; Transparan</p>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-          <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3"><i class="fas fa-server text-slate-600"></i></div>
-          <p class="font-semibold text-gray-900 text-sm">Enterprise-grade Architecture</p>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-          <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3"><i class="fas fa-shield-alt text-slate-600"></i></div>
-          <p class="font-semibold text-gray-900 text-sm">Security Best Practices</p>
-        </div>
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-          <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3"><i class="fas fa-users text-slate-600"></i></div>
-          <p class="font-semibold text-gray-900 text-sm">Community Driven</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DUA PRODUK, SATU EKOSISTEM -->
-  <section id="ekosistem" class="py-20 bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-purple-100 tracking-wide">Ekosistem</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">Dua Produk, Satu Ekosistem</h2>
-        <p class="text-gray-500 mt-3 max-w-4xl mx-auto">Dua produk open source yang saling melengkapi — pilih sesuai kebutuhan, atau gunakan keduanya untuk solusi digital sekolah yang utuh.</p>
-      </div>
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto">
-        <div class="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-6 sm:p-8 border border-indigo-100 card-hover">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-              <i class="fas fa-globe text-indigo-600 text-xl"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-900">CMS Sekolahku</h3>
-              <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-semibold">v3.2.0</span>
-            </div>
-          </div>
-          <p class="text-gray-600 text-sm leading-relaxed mb-4">Bangun website profil sekolah profesional dengan manajemen konten yang lengkap. Halaman statis, berita, agenda, galeri foto, profil guru, prestasi siswa, menu navigasi multi-level, dan masih banyak lagi.</p>
-          <div class="flex flex-wrap gap-2 mb-5">
-            <span class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full">Halaman Statis</span>
-            <span class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full">Menu Drag-Drop</span>
-            <span class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full">5 Tema</span>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            <a href="https://cms.sekolahku.web.id/" target="_blank" class="inline-flex items-center gap-2 border-2 border-indigo-600 text-indigo-600 px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-indigo-50 transition">
-              <i class="fas fa-eye"></i> Lihat Demo
-            </a>
-            <a href="#harga" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-indigo-700 transition shadow-md">
-              <i class="fas fa-arrow-right"></i> Lihat Detail
-            </a>
-          </div>
-        </div>
-        <div class="bg-gradient-to-br from-emerald-50 to-white rounded-2xl p-6 sm:p-8 border border-emerald-100 card-hover">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-              <i class="fas fa-graduation-cap text-emerald-600 text-xl"></i>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-900">SPMB</h3>
-              <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-semibold">v1.0.3</span>
-            </div>
-          </div>
-          <p class="text-gray-600 text-sm leading-relaxed mb-4">Sistem Penerimaan Murid Baru Online yang menangani pendaftaran dari 7 jenjang pendidikan. Multi-sekolah dalam satu instalasi, 10 langkah multi-step, sistem persyaratan hybrid, dan keamanan berlapis.</p>
-          <div class="flex flex-wrap gap-2 mb-5">
-            <span class="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">Multi-Sekolah</span>
-            <span class="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">7 Jenjang</span>
-            <span class="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">Keamanan Berlapis</span>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            <a href="https://spmb.sekolahku.web.id/" target="_blank" class="inline-flex items-center gap-2 border-2 border-emerald-600 text-emerald-600 px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-emerald-50 transition">
-              <i class="fas fa-eye"></i> Lihat Demo
-            </a>
-            <a href="#harga" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-emerald-700 transition shadow-md">
-              <i class="fas fa-arrow-right"></i> Lihat Detail
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MENGAPA MEMILIH -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-emerald-100 tracking-wide">Keunggulan</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">Mengapa Memilih Ekosistem Sekolahku?</h2>
-        <p class="text-gray-500 mt-3 max-w-4xl mx-auto">Baik Anda membutuhkan website sekolah, sistem SPMB, atau keduanya — semua tanpa biaya dan mudah dikembangkan.</p>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-x-12 gap-y-4 max-w-5xl mx-auto">
-        <div class="flex items-start gap-3">
-          <div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-check text-emerald-600 text-xs"></i></div>
-          <span class="text-gray-700">Mudah dipasang — cukup upload ke hosting biasa</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-check text-emerald-600 text-xs"></i></div>
-          <span class="text-gray-700">Dua produk yang saling melengkapi dalam satu ekosistem</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-check text-emerald-600 text-xs"></i></div>
-          <span class="text-gray-700">Kode sumber terbuka — bisa diaudit dan dimodifikasi</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-check text-emerald-600 text-xs"></i></div>
-          <span class="text-gray-700">Dapat di-host di server sendiri — data tetap aman</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-check text-emerald-600 text-xs"></i></div>
-          <span class="text-gray-700">Siap dikembangkan sesuai kebutuhan institusi Anda</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fas fa-check text-emerald-600 text-xs"></i></div>
-          <span class="text-gray-700">Didukung langsung oleh pengembang berpengalaman (15+ tahun)</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SIAPA COCOK -->
-  <section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-amber-100 tracking-wide">Target Pengguna</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">Siapa yang Cocok Menggunakan Produk Kami?</h2>
-        <p class="text-gray-500 mt-3 max-w-4xl mx-auto">CMS untuk yang butuh website sekolah, SPMB Online untuk penerimaan murid baru — atau keduanya.</p>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
-        <span class="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100 text-gray-700 font-medium"><i class="fas fa-check-circle text-indigo-500"></i> Sekolah Butuh Website Profil</span>
-        <span class="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100 text-gray-700 font-medium"><i class="fas fa-check-circle text-emerald-500"></i> Sekolah Butuh SPMB Online</span>
-        <span class="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100 text-gray-700 font-medium"><i class="fas fa-check-circle text-emerald-500"></i> Sekolah Negeri &amp; Swasta</span>
-        <span class="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100 text-gray-700 font-medium"><i class="fas fa-check-circle text-emerald-500"></i> Yayasan dengan Banyak Unit</span>
-        <span class="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100 text-gray-700 font-medium"><i class="fas fa-check-circle text-emerald-500"></i> Pondok Pesantren</span>
-        <span class="inline-flex items-center gap-2 bg-white rounded-full px-6 py-3 shadow-sm border border-gray-100 text-gray-700 font-medium"><i class="fas fa-check-circle text-emerald-500"></i> Madrasah &amp; Sekolah Islam</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- DIBANGUN ULANG -->
-  <section class="py-20 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white overflow-hidden relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="text-center mb-12">
-        <span class="inline-flex items-center gap-1.5 bg-blue-500/15 text-blue-300 text-xs font-semibold px-3.5 py-1 rounded-full border border-blue-400/20 tracking-wide">Evolusi</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Dibangun dari Pengalaman, Bukan Dimulai dari Nol</h2>
-        <p class="text-blue-200/70 mt-3 max-w-5xl mx-auto">Perjalanan kami dimulai sejak <strong class="text-white">2013</strong> dengan CMS Sekolahku yang telah digunakan oleh <strong class="text-white">1.842 sekolah</strong> di Indonesia. Dari pengalaman lebih dari satu dekade tersebut, kami melakukan rewrite total pada CMS menjadi <strong class="text-white">CMS Sekolahku v3.2.0</strong> — dibangun ulang dengan CodeIgniter 4, arsitektur modern, dan antarmuka yang lebih baik.</p>
-        <p class="text-blue-200/70 mt-4 max-w-5xl mx-auto">Di sisi lain, sistem penerimaan murid baru yang tadinya menjadi satu kesatuan dengan CMS kini dipisah menjadi produk tersendiri: <strong class="text-white">SPMB</strong>. Dengan pemisahan ini, CMS dan SPMB dikembangkan secara paralel — masing-masing lebih fokus, lebih optimal, dan tetap 100% open source.</p>
-      </div>
-      <div class="grid grid-cols-3 gap-4 sm:gap-6 max-w-2xl mx-auto mt-10">
-        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 text-center">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white">2013</div>
-          <div class="text-[10px] sm:text-xs text-blue-300 mt-1">Tahun pertama dirilis</div>
-        </div>
-        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 text-center">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white">1.842</div>
-          <div class="text-[10px] sm:text-xs text-blue-300 mt-1">Sekolah menggunakan CMS Sekolahku</div>
-        </div>
-        <div class="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 text-center">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white sm:whitespace-nowrap">15+</div>
-          <div class="text-[10px] sm:text-xs text-blue-300 mt-1">Tahun pengalaman</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FITUR -->
-  <section id="fitur" class="py-20 blob-bg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-indigo-100 tracking-wide">Fitur Utama</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">Fitur Lengkap untuk Kebutuhan Sekolah</h2>
-        <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Dua produk dengan fitur yang saling melengkapi — pilih yang sesuai, atau gunakan keduanya.</p>
-      </div>
-
-      <!-- CMS FEATURES -->
-      <div class="mb-4 flex items-center gap-3">
-        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center"><i class="fas fa-globe text-indigo-600 text-sm"></i></div>
-        <h3 class="text-xl font-bold text-gray-900">CMS Sekolahku <span class="text-sm font-normal text-gray-400">— CMS Website Sekolah</span></h3>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-file-lines text-indigo-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Halaman Statis</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Buat halaman kustom untuk profil, visi-misi, kontak — dengan editor visual dan SEO otomatis.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-newspaper text-purple-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Manajemen Berita</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Kelola berita sekolah dengan kategori, tags, arsip, dan publikasi terjadwal.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-calendar-days text-pink-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Agenda & Galeri</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Atur agenda sekolah dan galeri foto multi-kategori untuk dokumentasi kegiatan.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-chalkboard-user text-emerald-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Profil Guru & Prestasi</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Database tenaga pengajar lengkap dengan catatan prestasi siswa.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-bars-progress text-amber-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Menu Navigasi Drag-Drop</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Atur menu website hingga 3 level dengan drag & drop. Tampilkan atau sembunyikan sesuai kebutuhan.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-palette text-rose-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">10 Tema Warna + Dark Mode</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Pilih dari 10 tema warna. Dark mode otomatis mengikuti pengaturan perangkat pengunjung.</p>
-        </div>
-      </div>
-
-      <!-- SPMB FEATURES -->
-      <div class="mb-4 flex items-center gap-3">
-        <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center"><i class="fas fa-graduation-cap text-emerald-600 text-sm"></i></div>
-        <h3 class="text-xl font-bold text-gray-900">SPMB <span class="text-sm font-normal text-gray-400">— Penerimaan Murid Baru Online</span></h3>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-layer-group text-indigo-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Multi-Level Sekolah</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">SD, MI, SMP, MTs, SMA, SMK, Aliyah dalam satu sistem — masing-masing dengan konfigurasi sendiri.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-list-check text-emerald-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Pendaftaran Bertahap</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Proses 10 langkah dengan progress bar — calon siswa tidak kewalahan mengisi formulir panjang.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-database text-amber-600 text-xl"></i>
-          </div>
-           <h3 class="font-bold text-lg mb-2">Sistem Persyaratan Hybrid</h3>
-           <p class="text-gray-500 text-sm leading-relaxed">Gabungan persyaratan umum dan khusus per program — fleksibel untuk berbagai kebutuhan pendaftaran.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-shield-halved text-rose-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Keamanan Berlapis</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Perlindungan dari bot, password terenkripsi, dan sistem pemulihan data terhapus.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-chart-pie text-purple-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Dashboard & Laporan</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Statistik real-time dan grafik tren — pantau perkembangan pendaftaran secara langsung.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 card-hover">
-          <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-4">
-            <i class="fas fa-clipboard-list text-cyan-600 text-xl"></i>
-          </div>
-          <h3 class="font-bold text-lg mb-2">Pemulihan Data</h3>
-          <p class="text-gray-500 text-sm leading-relaxed">Data yang terhapus tidak hilang selamanya — administrator dapat mengembalikannya kapan saja.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ALUR DAFTAR -->
-  <section class="py-20 bg-white border-y border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <span class="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-purple-100 tracking-wide">Alur Pendaftaran</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">10 Langkah Mudah Mendaftar</h2>
-        <p class="text-gray-500 mt-3 max-w-xl mx-auto">Proses pendaftaran bertahap dengan progress bar yang memandu calon siswa hingga cetak formulir PDF.</p>
-      </div>
-      <div class="max-w-4xl mx-auto grid sm:grid-cols-2 gap-x-16 gap-y-4 sm:gap-y-5">
-        <div class="step-card">
-          <div class="step-num bg-blue-100 text-blue-700">1</div>
-          <h4 class="font-semibold text-gray-900">Identitas Diri</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Nama lengkap, TTL, jenis kelamin</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-indigo-100 text-indigo-700">2</div>
-          <h4 class="font-semibold text-gray-900">Alamat Tinggal</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Alamat, kelurahan, kecamatan, kota, provinsi</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-violet-100 text-violet-700">3</div>
-          <h4 class="font-semibold text-gray-900">Kontak</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Telepon, email, kontak darurat</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-purple-100 text-purple-700">4</div>
-          <h4 class="font-semibold text-gray-900">Data Ayah & Ibu</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Nama, pekerjaan, pendidikan, penghasilan</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-pink-100 text-pink-700">5</div>
-          <h4 class="font-semibold text-gray-900">Data Wali</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Nama, alamat, hubungan, kontak</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-rose-100 text-rose-700">6</div>
-          <h4 class="font-semibold text-gray-900">Asal Sekolah</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Nama sekolah, alamat, NISN</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-amber-100 text-amber-700">7</div>
-          <h4 class="font-semibold text-gray-900">Pilihan Program</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Pilih program/jurusan yang diminati</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-orange-100 text-orange-700">8</div>
-          <h4 class="font-semibold text-gray-900">Input Nilai Rapor</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Isi nilai sesuai mata pelajaran</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-red-100 text-red-700">9</div>
-          <h4 class="font-semibold text-gray-900">Upload Dokumen</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Foto, ijazah, KK, dokumen pendukung</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num bg-emerald-100 text-emerald-700">10</div>
-          <h4 class="font-semibold text-gray-900">Finalisasi & Cetak PDF</h4>
-          <p class="text-xs text-gray-400 mt-0.5">Periksa data, konfirmasi, cetak formulir</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KEUNGGULAN TEKNIS -->
-  <section id="teknologi" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-indigo-100 tracking-wide">Keunggulan Teknis</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">Dibangun dengan Stack Modern</h2>
-        <p class="text-gray-500 mt-3 max-w-4xl mx-auto">PHP 8.5, MySQL 8.0, Vanilla JS, CoreUI — modern, ringan, dan matang.</p>
-      </div>
-
-      <div class="space-y-8 mb-12">
-        <!-- Tech Stack -->
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-5xl mx-auto">
-          <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-microchip text-indigo-600"></i> Tech Stack</h3>
-          <div class="grid sm:grid-cols-2 gap-6">
-            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100 hover:border-indigo-200 transition">
-              <div class="flex items-center gap-2 mb-3">
-                <i class="devicon-php-plain colored text-xl"></i>
-                <span class="font-bold text-gray-900">PHP</span>
-                <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-semibold">8.5+</span>
-              </div>
-              <p class="text-sm text-gray-500 leading-relaxed">Aplikasi ringan dengan performa tinggi yang bisa dijalankan di hampir semua hosting. Tidak perlu server mahal atau konfigurasi rumit.</p>
-            </div>
-            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100 hover:border-indigo-200 transition">
-              <div class="flex items-center gap-2 mb-3">
-                <i class="devicon-mysql-plain colored text-xl"></i>
-                <span class="font-bold text-gray-900">MySQL</span>
-                <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-semibold">8.0+</span>
-              </div>
-              <p class="text-sm text-gray-500 leading-relaxed">Data tersimpan aman di database yang didukung hampir semua layanan hosting. Struktur data yang rapi memastikan informasi sekolah tetap terorganisir.</p>
-            </div>
-            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100 hover:border-indigo-200 transition">
-              <div class="flex items-center gap-2 mb-3">
-                <i class="devicon-javascript-plain colored text-xl"></i>
-                <span class="font-bold text-gray-900">Vanilla JS</span>
-                <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full font-semibold">Cepat & ringan</span>
-              </div>
-              <p class="text-sm text-gray-500 leading-relaxed">Halaman website cepat dimuat tanpa bergantung pada library berat. Cukup browser standar — tidak perlu plugin tambahan.</p>
-            </div>
-            <div class="p-5 bg-gray-50 rounded-xl border border-gray-100 hover:border-indigo-200 transition">
-              <div class="flex items-center gap-2 mb-3">
-                <i class="fas fa-palette text-indigo-500 text-xl"></i>
-                <span class="font-bold text-gray-900">CoreUI</span>
-                <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">Dashboard Profesional</span>
-              </div>
-              <p class="text-sm text-gray-500 leading-relaxed">Antarmuka admin yang profesional, bersih, dan mudah digunakan. Didesain khusus untuk pengelolaan konten sekolah.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          <span class="inline-flex items-center gap-1.5 bg-indigo-500/15 backdrop-blur-sm text-indigo-700 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-indigo-400/20">
-            <i class="devicon-php-plain text-sm"></i> PHP 8.5
-          </span>
-          <span class="inline-flex items-center gap-1.5 bg-yellow-500/15 backdrop-blur-sm text-yellow-700 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-yellow-400/20">
-            <i class="devicon-javascript-plain text-sm"></i> Javascript
-          </span>
-          <span class="inline-flex items-center gap-1.5 bg-indigo-500/15 backdrop-blur-sm text-indigo-700 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-indigo-400/20">
-            <i class="devicon-mysql-plain text-sm"></i> MySQL 8.0
-          </span>
-          <span class="inline-flex items-center gap-1.5 bg-emerald-500/15 backdrop-blur-sm text-emerald-700 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-emerald-400/20">
-            <i class="devicon-codeigniter-plain text-sm"></i> CodeIgniter 4
-          </span>
-          <span class="inline-flex items-center gap-1.5 bg-rose-500/15 backdrop-blur-sm text-rose-700 text-xs font-semibold px-3 sm:px-4 py-1.5 rounded-full border border-rose-400/20">
-            <i class="devicon-bootstrap-plain text-sm"></i> CoreUI
-          </span>
-        </div>
-
-        <!-- Security Layers -->
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-5xl mx-auto">
-          <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-shield-halved text-rose-600"></i> Keamanan Berlapis</h3>
-          <div class="grid sm:grid-cols-2 gap-3">
-            <div class="security-layer border-l-emerald-500 bg-emerald-50/50">
-              <span class="text-xs font-bold text-emerald-700 uppercase tracking-wide">Lapisan 1</span>
-              <p class="text-sm font-medium text-gray-800">Anti-bot otomatis — melindungi dari pendaftaran palsu</p>
-            </div>
-            <div class="security-layer border-l-blue-500 bg-blue-50/50">
-              <span class="text-xs font-bold text-blue-700 uppercase tracking-wide">Lapisan 2</span>
-              <p class="text-sm font-medium text-gray-800">Pembatas akses — mencegah percobaan login berulang oleh bot</p>
-            </div>
-            <div class="security-layer border-l-indigo-500 bg-indigo-50/50">
-              <span class="text-xs font-bold text-indigo-700 uppercase tracking-wide">Lapisan 3</span>
-              <p class="text-sm font-medium text-gray-800">Kebijakan password ketat — melindungi akun pengguna</p>
-            </div>
-            <div class="security-layer border-l-violet-500 bg-violet-50/50">
-              <span class="text-xs font-bold text-violet-700 uppercase tracking-wide">Lapisan 4</span>
-              <p class="text-sm font-medium text-gray-800">Perlindungan formulir — mencegah penyusupan dari situs luar</p>
-            </div>
-            <div class="security-layer border-l-purple-500 bg-purple-50/50">
-              <span class="text-xs font-bold text-purple-700 uppercase tracking-wide">Lapisan 5</span>
-              <p class="text-sm font-medium text-gray-800">Enkripsi password standar tinggi — aman meski database bocor</p>
-            </div>
-            <div class="security-layer border-l-rose-500 bg-rose-50/50">
-              <span class="text-xs font-bold text-rose-700 uppercase tracking-wide">Lapisan 6</span>
-              <p class="text-sm font-medium text-gray-800">Sesi login aman — setiap masuk mendapat kunci sesi baru</p>
-            </div>
-            <div class="security-layer border-l-pink-500 bg-pink-50/50">
-              <span class="text-xs font-bold text-pink-700 uppercase tracking-wide">Lapisan 7</span>
-              <p class="text-sm font-medium text-gray-800">Data aman — informasi yang terhapus bisa dikembalikan kapan saja</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- JENJANG -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-emerald-100 tracking-wide">Jenjang</span>
-        <h2 class="text-3xl font-bold text-gray-900 mt-2">Semua Jenjang dalam 1 Sistem</h2>
-        <p class="text-gray-500 mt-3 max-w-4xl mx-auto">SD/MI hingga Aliyah/MA dalam satu instalasi. Satu database, multi-level — masing-masing jenjang punya konfigurasi, gelombang, dan alur sendiri.</p>
-      </div>
-
-      <div class="flex items-center justify-center gap-0 mb-10">
-        <div class="hidden sm:flex items-center gap-3 px-5 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium border border-emerald-100">
-          <i class="fas fa-server text-emerald-500"></i> 1 Instalasi SPMB
-        </div>
-        <div class="hidden sm:flex items-center text-gray-300 mx-3"><i class="fas fa-arrow-right text-lg"></i></div>
-        <div class="flex flex-wrap justify-center gap-2">
-          <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-medium border border-emerald-100">SD</span>
-          <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-medium border border-emerald-100">MI</span>
-          <span class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-full text-xs font-medium border border-yellow-100">SMP</span>
-          <span class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-full text-xs font-medium border border-yellow-100">MTs</span>
-          <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-xs font-medium border border-orange-100">SMA</span>
-          <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-xs font-medium border border-red-100">SMK</span>
-          <span class="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-xs font-medium border border-purple-100">Aliyah</span>
-        </div>
-      </div>
-
-      <div class="grid sm:grid-cols-5 gap-4 max-w-5xl mx-auto">
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100 text-center card-hover">
-          <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-book text-green-600 text-lg"></i></div>
-          <h4 class="font-bold text-gray-900 text-sm">SD / MI</h4>
-          <p class="text-xs text-gray-500 mt-1">Sekolah Dasar & Madrasah Ibtidaiyah</p>
-        </div>
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-100 text-center card-hover">
-          <div class="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-book-open text-yellow-600 text-lg"></i></div>
-          <h4 class="font-bold text-gray-900 text-sm">SMP / MTs</h4>
-          <p class="text-xs text-gray-500 mt-1">Sekolah Menengah Pertama & Tsanawiyah</p>
-        </div>
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-100 text-center card-hover">
-          <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-graduation-cap text-orange-600 text-lg"></i></div>
-          <h4 class="font-bold text-gray-900 text-sm">SMA</h4>
-          <p class="text-xs text-gray-500 mt-1">Sekolah Menengah Atas</p>
-        </div>
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-red-50 to-rose-50 border border-red-100 text-center card-hover">
-          <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-wrench text-red-600 text-lg"></i></div>
-          <h4 class="font-bold text-gray-900 text-sm">SMK</h4>
-          <p class="text-xs text-gray-500 mt-1">Sekolah Menengah Kejuruan</p>
-        </div>
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-100 text-center card-hover">
-          <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-mosque text-purple-600 text-lg"></i></div>
-          <h4 class="font-bold text-gray-900 text-sm">Aliyah / MA</h4>
-          <p class="text-xs text-gray-500 mt-1">Madrasah Aliyah</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRANSPARANSI -->
-  <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-flex items-center gap-1.5 bg-rose-50 text-rose-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-rose-100 tracking-wide">Keamanan &amp; Kepercayaan</span>
-      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mt-2 mb-6">Mengapa Transparansi Itu Penting?</h2>
-      <div class="text-gray-600 text-base leading-relaxed max-w-5xl mx-auto space-y-4">
-        <p>Di era AI, membuat aplikasi menjadi jauh lebih mudah. Namun kualitas perangkat lunak tetap bergantung pada proses pengembangan, pengujian, dan pemeliharaan yang baik. Open source memberikan transparansi sehingga siapa pun dapat meninjau kode, melaporkan masalah, dan memastikan aplikasi berkembang secara aman dan berkelanjutan.</p>
-        <p>Transparansi bukan hanya membuat aplikasi dapat diperiksa, tetapi juga memastikan sekolah memiliki kendali penuh atas sistem yang digunakan tanpa bergantung pada satu penyedia layanan.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HARGA -->
-  <section id="harga" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-amber-100 tracking-wide">Harga</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">Gratis Selamanya</h2>
-        <p class="text-gray-500 mt-3 max-w-4xl mx-auto">Kedua produk open source ini bisa digunakan oleh sekolah mana pun di Indonesia.</p>
-      </div>
-      <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-        <!-- CMS Sekolahku -->
-        <div class="bg-white rounded-3xl shadow-lg border-2 border-indigo-100 overflow-hidden card-hover">
-          <div class="bg-gradient-to-r from-indigo-50 to-indigo-50 p-8 text-center relative">
-            <div class="absolute top-4 right-4 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full">Terbaru</div>
-            <h3 class="text-2xl font-bold text-gray-900">CMS Sekolahku <span class="text-sm font-semibold text-gray-400">v3.2.0</span></h3>
-            <div class="mt-4"><span class="text-5xl font-extrabold text-indigo-600">Rp0</span><p class="text-gray-500 mt-1">Gratis Selamanya</p></div>
-          </div>
-          <div class="p-8">
-            <ul class="space-y-3 pricing-feature">
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">Halaman Statis dengan Editor Visual</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">Manajemen Berita dengan Kategori, Tags, Arsip</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">Agenda Sekolah & Galeri Foto Multi-Kategori</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">Profil Guru + Prestasi Siswa</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">Multi-Level Menu Navigasi (Drag & Drop)</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">10 Tema Warna + Dark Mode</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">SEO Otomatis — ramah mesin pencari</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-indigo-500 mt-0.5"></i> <span class="text-sm font-medium">100% Open Source — MIT License</span></li>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+              Penerimaan murid baru online untuk 7 jenjang (SD hingga Aliyah). 10 langkah multi-step, persyaratan hybrid, keamanan berlapis, dashboard real-time.
+            </p>
+            <ul class="space-y-2 mb-8">
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-emerald-500 text-xs"></i> 7 jenjang dalam 1 instalasi
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-emerald-500 text-xs"></i> Pendaftaran 10 langkah bertahap
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-emerald-500 text-xs"></i> Persyaratan umum &amp; khusus per program
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-emerald-500 text-xs"></i> Keamanan 7 lapisan
+              </li>
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <i class="fas fa-check text-emerald-500 text-xs"></i> Dashboard &amp; laporan real-time, cetak PDF
+              </li>
             </ul>
-            <a href="#fitur" class="mt-2 inline-flex items-center gap-1 text-indigo-600 text-sm font-medium hover:text-indigo-700 transition">
-              Lihat seluruh fitur <i class="fas fa-arrow-right text-xs"></i>
-            </a>
-            <a href="https://cms.sekolahku.web.id/" target="_blank" class="mt-6 w-full inline-flex items-center justify-center gap-2 border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-xl font-semibold hover:bg-indigo-50 transition">
-              <i class="fas fa-eye"></i> Lihat Demo CMS Sekolahku
-            </a>
-            <a href="https://drive.google.com/drive/folders/1pL2tXABhzJ4Y8hvWGZ6fwIonap2SfeM2" target="_blank" class="mt-6 w-full inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition shadow-md">
-              <i class="fas fa-download"></i> Download CMS Sekolahku
-            </a>
-          </div>
-        </div>
-        <!-- SPMB -->
-        <div class="bg-white rounded-3xl shadow-lg border-2 border-emerald-100 overflow-hidden card-hover">
-          <div class="bg-gradient-to-r from-emerald-50 to-green-50 p-8 text-center relative">
-            <div class="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full">Terbaru</div>
-            <h3 class="text-2xl font-bold text-gray-900">SPMB <span class="text-sm font-semibold text-gray-400">v1.0.3</span></h3>
-            <div class="mt-4"><span class="text-5xl font-extrabold text-emerald-600">Rp0</span><p class="text-gray-500 mt-1">Gratis Selamanya</p></div>
-          </div>
-          <div class="p-8">
-            <ul class="space-y-3 pricing-feature">
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">Multi-Level Sekolah (SD/MI - SMA/SMK/MA)</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">Pendaftaran Multi-Step 10 Langkah</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">Sistem Persyaratan Hybrid (Umum & Khusus)</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">3 Level Peran: Admin, Operator, Siswa</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">Dashboard & Grafik Real-time</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">Pemulihan Data Terhapus</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">Perlindungan dari Bot & Spam</span></li>
-              <li class="flex items-start gap-3"><i class="fas fa-check text-emerald-500 mt-0.5"></i> <span class="text-sm font-medium">100% Kemandirian Digital — tanpa vendor lock-in</span></li>
-            </ul>
-            <a href="#fitur" class="mt-2 inline-flex items-center gap-1 text-emerald-600 text-sm font-medium hover:text-emerald-700 transition">
-              Lihat seluruh fitur <i class="fas fa-arrow-right text-xs"></i>
-            </a>
-            <a href="https://spmb.sekolahku.web.id/" target="_blank" class="mt-6 w-full inline-flex items-center justify-center gap-2 border-2 border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition">
-              <i class="fas fa-eye"></i> Lihat Demo SPMB
-            </a>
-            <a href="https://drive.google.com/drive/folders/1-0T6YZukDxZ-fSbBHOgHGD9CkTpJwF_J?usp=sharing" target="_blank" class="mt-6 w-full inline-flex items-center justify-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold glow-btn hover:bg-emerald-700">
-              <i class="fas fa-download"></i> Download SPMB Online
-            </a>
+            <div class="flex gap-3">
+              <a href="https://spmb.sekolahku.web.id/" target="_blank" rel="noopener" class="flex-1 text-center border border-slate-300 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition">
+                Demo
+              </a>
+              <a href="https://drive.google.com/drive/folders/1-0T6YZukDxZ-fSbBHOgHGD9CkTpJwF_J?usp=sharing" target="_blank" rel="noopener" class="flex-1 text-center bg-emerald-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
+                Download
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CARA MULAI -->
-  <section class="py-20 bg-gray-50 border-y border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-semibold px-3.5 py-1 rounded-full border border-green-100 tracking-wide">Mulai</span>
-      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-2 mb-12">Mulai dalam 3 Langkah Mudah</h2>
-      <div class="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-          <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl font-extrabold text-indigo-600">1</span>
-          </div>
-          <h3 class="font-bold text-gray-900 mb-2">Download</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Pilih CMS Sekolahku, SPMB Online, atau keduanya. Unduh gratis dari server kami.</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-          <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl font-extrabold text-indigo-600">2</span>
-          </div>
-          <h3 class="font-bold text-gray-900 mb-2">Install & Konfigurasi</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Upload ke hosting, isi konfigurasi database, dan aplikasi langsung siap dipakai.</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-          <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span class="text-2xl font-extrabold text-indigo-600">3</span>
-          </div>
-          <h3 class="font-bold text-gray-900 mb-2">Mulai Digunakan</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Kelola website sekolah atau buka pendaftaran murid baru — semuanya dari dashboard.</p>
-        </div>
-      </div>
-      <div class="mt-10 p-6 bg-indigo-50 rounded-2xl border border-indigo-100 max-w-4xl mx-auto">
-        <p class="text-gray-700 text-sm">
-          <strong class="text-gray-900">Tidak ingin repot?</strong> Kami menyediakan jasa instalasi, migrasi data, dan kustomisasi. 
-          <a href="https://wa.me/6285759888922" target="_blank" class="text-indigo-600 font-semibold hover:text-indigo-700 transition">Hubungi kami <i class="fab fa-whatsapp"></i></a>
+    <!-- FITUR -->
+    <section id="fitur" class="py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">Fitur utama</h2>
+        <p class="text-slate-600 leading-relaxed mb-10 max-w-2xl">
+          Fitur CMS dan SPMB dirancang berdampingan. Aktifkan sesuai kebutuhan.
         </p>
-      </div>
-    </div>
-  </section>
 
-  <!-- CTA -->
-  <section id="demo" class="hero-gradient py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Siap Memulai Digitalisasi Sekolah Anda?<br>Unduh Sekarang, Gratis</h2>
-      <p class="text-indigo-200 text-lg mb-8 max-w-4xl mx-auto">Bangun website sekolah dengan CMS Sekolahku v3.2.0, kelola penerimaan murid baru dengan SPMB Online — atau gunakan keduanya dalam satu ekosistem.</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://cms.sekolahku.web.id/" target="_blank" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/30 px-8 py-3.5 rounded-full font-bold text-base hover:bg-white/20 transition shadow-lg">
-          <i class="fas fa-eye"></i> Lihat Demo CMS
-        </a>
-        <a href="#harga" class="inline-flex items-center gap-2 bg-indigo-500 text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-indigo-600 transition shadow-lg">
-          <i class="fas fa-download"></i> Download CMS Sekolahku
-        </a>
-        <a href="https://spmb.sekolahku.web.id/" target="_blank" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/30 px-8 py-3.5 rounded-full font-bold text-base hover:bg-white/20 transition shadow-lg">
-          <i class="fas fa-eye"></i> Lihat Demo SPMB
-        </a>
-        <a href="#harga" class="inline-flex items-center gap-2 bg-emerald-500 text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-emerald-600 transition shadow-lg">
-          <i class="fas fa-download"></i> Download SPMB Online
-        </a>
-        <a href="https://wa.me/6285759888922" target="_blank" class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/30 px-8 py-3.5 rounded-full font-bold text-base hover:bg-white/20 transition shadow-lg">
-          <i class="fab fa-whatsapp"></i> Butuh Bantuan Implementasi?
-        </a>
+        <div class="grid md:grid-cols-2 gap-10">
+          <!-- CMS Features -->
+          <div>
+            <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span> CMS Sekolahku
+            </h3>
+            <div class="space-y-1">
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  Halaman Statis &amp; Editor Visual
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Buat halaman profil, visi-misi, kontak. Editor WYSIWYG dengan pratinjau langsung, SEO otomatis. 13 halaman bawaan (profil, program, guru, prestasi, ekskul, testimoni, galeri, agenda, FAQ, berita, download, kontak).</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  3 Tema Tampilan
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Nusantara (navy-merah), Cakrawala (biru-kuning), Lentera (hijau). Ganti tema lewat Admin → Settings → Tema Tampilan. Tambah tema baru cukup buat folder baru.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  Menu Navigasi Drag &amp; Drop
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Atur struktur menu hingga 3 level. Tampilkan atau sembunyikan item, ikon kustom. Menu dinamis dari Admin → Menus.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  Berita, Agenda, Galeri, Guru, Prestasi
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Kategori, tag, arsip, pencarian, komentar berita (moderasi). Agenda status otomatis. Galeri dengan kategori &amp; gambar unggulan. Prestasi dengan foto &amp; tingkat. Guru dengan foto &amp; tampil/tersembunyi.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  Program, Ekstrakurikuler, Testimoni
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Program dengan link URL kustom. Ekstrakurikuler dengan ikon &amp; warna. Testimoni dengan foto bulat. FAQ dengan kategori. Download. Pesan masuk.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  Tahapan SPMB Dinamis
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">10 langkah pendaftaran yang bisa disesuaikan. Preset SD/SMP/SMA. Teks berjalan otomatis dari pengumuman, berita, agenda, prestasi.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-indigo-600 transition">
+                  SEO &amp; Keamanan
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Sitemap XML, meta tags, URL slug. CSRF protection. Cache performa. Halaman publik responsif dengan breadcrumb, sidebar, tag, arsip.</p>
+              </details>
+            </div>
+          </div>
+          <!-- SPMB Features -->
+          <div>
+            <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-600"></span> SPMB Online
+            </h3>
+            <div class="space-y-1">
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-emerald-600 transition">
+                  Multi-Sekolah &amp; Multi-Jenjang
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">SD, MI, SMP, MTs, SMA, SMK, Aliyah dalam 1 database. Setiap jenjang punya gelombang dan kuota sendiri.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-emerald-600 transition">
+                  Pendaftaran 10 Langkah Bertahap
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Identitas, alamat, kontak, orang tua, wali, asal sekolah, program, nilai rapor, dokumen, finalisasi &amp; cetak PDF.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-emerald-600 transition">
+                  Sistem Persyaratan Hybrid
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Gabungkan persyaratan wajib seluruh sekolah + persyaratan khusus per program/jurusan.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-emerald-600 transition">
+                  Keamanan 7 Lapisan
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Anti-bot, pembatas login, kebijakan password kuat, CSRF, bcrypt/argon2, rotasi session, soft-delete &amp; restore.</p>
+              </details>
+              <details class="group">
+                <summary class="flex items-center justify-between py-3 cursor-pointer text-sm font-medium text-slate-700 hover:text-emerald-600 transition">
+                  Dashboard &amp; Laporan Real-Time
+                  <i class="fas fa-chevron-down text-xs text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <p class="pb-3 text-sm text-slate-500 leading-relaxed">Grafik pendaftar per hari/jenjang/program, funnel konversi, export CSV/Excel, cetak kartu ujian.</p>
+              </details>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- KONTAK -->
-  <section id="kontak" class="py-20 hero-gradient">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Professional Support</h2>
-        <p class="text-indigo-200 mt-4 text-lg max-w-4xl mx-auto">Gunakan gratis. Implementasikan bersama ahlinya.</p>
-        <p class="text-indigo-200/80 mt-2 max-w-4xl mx-auto">Kedua produk dapat digunakan tanpa biaya. Jika institusi Anda membutuhkan implementasi, migrasi dari sistem lama, integrasi dengan sistem internal, pengembangan fitur khusus, atau pendampingan hingga sistem berjalan — kami siap membantu.</p>
-        <p class="text-yellow-300 mt-2 max-w-4xl mx-auto font-bold text-xl">Disupport langsung oleh pengembang berpengalaman.</p>
+    <!-- ALUR -->
+    <section class="py-20 bg-slate-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">10 langkah mendaftar</h2>
+        <p class="text-slate-600 leading-relaxed mb-10 max-w-2xl">
+          Progress bar memandu calon siswa dari identitas hingga cetak formulir PDF.
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4" style="counter-reset: step;">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Identitas</p>
+            <p class="text-xs text-slate-500 mt-0.5">Nama, TTL, JK</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Alamat</p>
+            <p class="text-xs text-slate-500 mt-0.5">Kelurahan hingga provinsi</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Kontak</p>
+            <p class="text-xs text-slate-500 mt-0.5">Telp, email, darurat</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Orang Tua</p>
+            <p class="text-xs text-slate-500 mt-0.5">Ayah &amp; Ibu</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Wali</p>
+            <p class="text-xs text-slate-500 mt-0.5">Jika berbeda</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Asal Sekolah</p>
+            <p class="text-xs text-slate-500 mt-0.5">NISN, nama, alamat</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Program</p>
+            <p class="text-xs text-slate-500 mt-0.5">Pilih jurusan</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Nilai Rapor</p>
+            <p class="text-xs text-slate-500 mt-0.5">Input per mapel</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Dokumen</p>
+            <p class="text-xs text-slate-500 mt-0.5">Foto, ijazah, KK</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <div class="w-8 h-8 rounded-full bg-emerald-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-2 step-num"></div>
+            <p class="text-sm font-medium text-slate-800">Selesai</p>
+            <p class="text-xs text-slate-500 mt-0.5">Cetak PDF formulir</p>
+          </div>
+        </div>
       </div>
-      <div class="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto mb-12">
-        <div class="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 card-hover">
-          <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-envelope text-indigo-300 text-xl"></i></div>
-          <h3 class="font-semibold mb-1 text-white">Email</h3>
-          <p class="text-indigo-200 text-sm">4ntonsofyan@gmail.com</p>
+    </section>
+
+    <!-- KENAPA -->
+    <section id="kenapa" class="py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="max-w-2xl mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 mb-3">Kenapa Sekolahku?</h2>
+          <p class="text-slate-600 leading-relaxed">
+            Kami memahami kebutuhan guru, admin, dan kepala sekolah karena kami berasal dari lingkungan pendidikan.
+          </p>
         </div>
-        <div class="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 card-hover">
-          <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4"><i class="fab fa-whatsapp text-green-300 text-xl"></i></div>
-          <h3 class="font-semibold mb-1 text-white">WhatsApp</h3>
-          <p class="text-indigo-200 text-sm">0857 5988 8922</p>
-        </div>
-        <div class="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 card-hover">
-          <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center mx-auto mb-4"><i class="fab fa-facebook text-indigo-300 text-xl"></i></div>
-          <h3 class="font-semibold mb-1 text-white">Facebook</h3>
-          <a href="https://www.facebook.com/antonsofyan/" target="_blank" class="text-indigo-200 text-sm hover:text-indigo-100 transition font-medium">Anton Sofyan</a>
-        </div>
-        <div class="text-center p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 card-hover">
-          <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-users text-blue-300 text-xl"></i></div>
-          <h3 class="font-semibold mb-1 text-white">Group Diskusi</h3>
-          <a href="https://www.facebook.com/groups/cmssekolahku" target="_blank" class="text-blue-300 text-sm hover:text-blue-200 transition font-medium">Facebook Group</a>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="border border-slate-200 rounded-xl p-6">
+            <h3 class="font-bold text-slate-900 mb-2">Data di server Anda</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Tidak ada vendor lock-in. Semua data siswa, guru, dan pendaftar tersimpan di infrastruktur sekolah sendiri.
+            </p>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-6">
+            <h3 class="font-bold text-slate-900 mb-2">Mudah dipasang</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Cukup upload ke hosting biasa. Tidak butuh Node.js, Docker, atau konfigurasi server rumit.
+            </p>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-6">
+            <h3 class="font-bold text-slate-900 mb-2">Komunitas aktif</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Grup Facebook 10.5K members. Bantuan instalasi, kustomisasi, dan sharing best practice antar sekolah.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="text-center">
-        <a href="https://wa.me/6285759888922" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-600 transition shadow-xl hover:shadow-green-500/30">
-          <i class="fab fa-whatsapp text-xl"></i> Konsultasi via WhatsApp
-        </a>
-        <p class="text-indigo-300 text-sm mt-4">Diskusi teknis, instalasi, kustomisasi, dan kerjasama</p>
+    </section>
+
+    <!-- KEPERCAYAAN -->
+    <section id="kepercayaan" class="py-20 bg-slate-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">Dibangun dari pengalaman nyata</h2>
+        <p class="text-slate-600 leading-relaxed mb-10 max-w-2xl">
+          Lebih dari satu dekade mengabdi untuk pendidikan Indonesia.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+          <div class="bg-white rounded-xl border border-slate-200 p-6 text-center">
+            <div class="text-4xl font-extrabold text-indigo-600 mb-1">2013</div>
+            <p class="text-sm text-slate-600">Tahun pertama dirilis</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-6 text-center">
+            <div class="text-4xl font-extrabold text-indigo-600 mb-1">1.842</div>
+            <p class="text-sm text-slate-600">Sekolah menggunakan CMS Sekolahku</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-6 text-center">
+            <div class="text-4xl font-extrabold text-indigo-600 mb-1">15+</div>
+            <p class="text-sm text-slate-600">Tahun pengembangan</p>
+          </div>
+        </div>
+
+        <div class="max-w-2xl">
+          <h3 class="font-bold text-slate-900 mb-4">Sejarah singkat</h3>
+          <div class="timeline-line space-y-6 pl-8">
+            <div class="relative">
+              <div class="timeline-dot absolute -left-8 top-1 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+              <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">2013</div>
+              <p class="text-sm text-slate-700 font-medium">CMS Sekolahku v1 dirilis</p>
+              <p class="text-sm text-slate-500">Versi pertama berbasis CodeIgniter 3, fokus website profil sekolah.</p>
+            </div>
+            <div class="relative">
+              <div class="timeline-dot absolute -left-8 top-1 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+              <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">2018</div>
+              <p class="text-sm text-slate-700 font-medium">Modul SPMB terintegrasi</p>
+              <p class="text-sm text-slate-500">Fitur pendaftaran online ditambahkan ke dalam CMS.</p>
+            </div>
+            <div class="relative">
+              <div class="timeline-dot absolute -left-8 top-1 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+               <div class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">2026</div>
+               <p class="text-sm text-slate-700 font-medium">Rewrite total ke CodeIgniter 4</p>
+              <p class="text-sm text-slate-500">Arsitektur modern, PHP 8.1+, fondasi CMS v3 &amp; SPMB terpisah.</p>
+            </div>
+            <div class="relative">
+              <div class="timeline-dot absolute -left-8 top-1 w-6 h-6 rounded-full bg-emerald-600 border-4 border-white shadow-sm"></div>
+               <div class="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">2026</div>
+               <p class="text-sm text-slate-700 font-medium">SPMB jadi produk mandiri</p>
+              <p class="text-sm text-slate-500">Pemisahan kode agar CMS &amp; SPMB masing-masing fokus dan scalable.</p>
+            </div>
+            <div class="relative">
+              <div class="timeline-dot absolute -left-8 top-1 w-6 h-6 rounded-full bg-emerald-600 border-4 border-white shadow-sm"></div>
+               <div class="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">2026</div>
+               <p class="text-sm text-slate-700 font-medium">Ekosistem Sekolahku v3.2 + SPMB v1</p>
+              <p class="text-sm text-slate-500">Rilis stabil, dokumentasi lengkap, demo publik, komunitas 5.000+ anggota.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 flex flex-wrap gap-2">
+          <span class="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md">PHP 8.5+</span>
+          <span class="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md">CodeIgniter 4</span>
+          <span class="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md">MySQL 8.0+</span>
+          <span class="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md">Vanilla JS</span>
+          <span class="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md">CoreUI</span>
+          <span class="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md">MIT License</span>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- HARGA -->
+    <section id="harga" class="py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">Gratis selamanya</h2>
+        <p class="text-slate-600 leading-relaxed mb-10 max-w-2xl">
+          Kedua produk open source ini bisa digunakan oleh sekolah mana pun di Indonesia.
+        </p>
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl">
+          <div class="border border-slate-200 rounded-xl p-6">
+            <h3 class="font-bold text-slate-900 mb-1">CMS Sekolahku <span class="text-sm font-normal text-slate-500">v3.2.0</span></h3>
+            <div class="text-3xl font-extrabold text-slate-900 mb-4">Rp 0</div>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> 13 halaman bawaan + halaman statis</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> 3 tema tampilan (Nusantara, Cakrawala, Lentera)</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> Berita, agenda, galeri, guru, prestasi, ekskul, program, testimoni, FAQ, download</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> Menu drag-and-drop 3 level</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> Tahapan SPMB dinamis (preset SD/SMP/SMA)</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> Komentar berita (moderasi), pesan masuk</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> SEO otomatis (sitemap, meta tags, slug)</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> CSRF protection, cache performa</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-indigo-500 text-xs"></i> 100% open source, MIT License</li>
+            </ul>
+            <div class="flex gap-3">
+              <a href="https://cms.sekolahku.web.id/" target="_blank" rel="noopener" class="flex-1 text-center border border-slate-300 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition">Demo</a>
+              <a href="https://drive.google.com/drive/folders/1pL2tXABhzJ4Y8hvWGZ6fwIonap2SfeM2" target="_blank" rel="noopener" class="flex-1 text-center bg-indigo-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">Download</a>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-xl p-6">
+            <h3 class="font-bold text-slate-900 mb-1">SPMB <span class="text-sm font-normal text-slate-500">v1.0.3</span></h3>
+            <div class="text-3xl font-extrabold text-slate-900 mb-4">Rp 0</div>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-emerald-500 text-xs"></i> 7 jenjang (SD hingga Aliyah)</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-emerald-500 text-xs"></i> Pendaftaran 10 langkah</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-emerald-500 text-xs"></i> Persyaratan hybrid</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-emerald-500 text-xs"></i> Keamanan 7 lapisan</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-emerald-500 text-xs"></i> Dashboard &amp; laporan real-time</li>
+              <li class="flex items-center gap-2 text-sm text-slate-600"><i class="fas fa-check text-emerald-500 text-xs"></i> Cetak formulir PDF</li>
+            </ul>
+            <div class="flex gap-3">
+              <a href="https://spmb.sekolahku.web.id/" target="_blank" rel="noopener" class="flex-1 text-center border border-slate-300 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition">Demo</a>
+              <a href="https://drive.google.com/drive/folders/1-0T6YZukDxZ-fSbBHOgHGD9CkTpJwF_J?usp=sharing" target="_blank" rel="noopener" class="flex-1 text-center bg-emerald-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">Download</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MULAI -->
+    <section class="py-20 bg-slate-50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">Mulai dalam 3 langkah</h2>
+        <p class="text-slate-600 leading-relaxed mb-10 max-w-2xl">
+          Tidak perlu keahlian teknis khusus. Instalasi sederhana, langsung siap pakai.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="text-2xl font-extrabold text-indigo-600 mb-3">1</div>
+            <h3 class="font-bold text-slate-900 mb-2">Download</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">Pilih CMS Sekolahku, SPMB, atau keduanya. Unduh gratis.</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="text-2xl font-extrabold text-indigo-600 mb-3">2</div>
+            <h3 class="font-bold text-slate-900 mb-2">Install &amp; konfigurasi</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">Upload ke hosting, isi konfigurasi database, aplikasi langsung siap dipakai.</p>
+          </div>
+          <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="text-2xl font-extrabold text-indigo-600 mb-3">3</div>
+            <h3 class="font-bold text-slate-900 mb-2">Mulai digunakan</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">Kelola website sekolah atau buka pendaftaran murid baru dari dashboard.</p>
+          </div>
+        </div>
+        <div class="mt-8 p-5 bg-white rounded-xl border border-slate-200 max-w-2xl">
+          <p class="text-sm text-slate-600">
+            <span class="font-semibold text-slate-900">Tidak ingin repot?</span> Kami menyediakan jasa instalasi, migrasi data, dan kustomisasi.
+            <a href="https://wa.me/6285759888922" target="_blank" rel="noopener" class="text-indigo-600 font-medium hover:text-indigo-700 transition">Hubungi kami <i class="fab fa-whatsapp"></i></a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KONTAK -->
+    <section id="kontak" class="py-20 bg-slate-900 text-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <div>
+            <h2 class="text-3xl font-bold mb-3">Professional Support</h2>
+            <p class="text-slate-400 leading-relaxed mb-8 max-w-xl">
+              Gunakan gratis. Implementasikan bersama ahlinya. Kami siap membantu instalasi, migrasi dari sistem lama, integrasi, pengembangan fitur khusus, atau pendampingan hingga sistem berjalan.
+            </p>
+            <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0">
+                  <i class="fas fa-arrow-up text-indigo-400"></i>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-bold text-white mb-1">Jasa Upgrade CMS Sekolahku</h3>
+                  <p class="text-sm text-slate-300 leading-relaxed">
+                    Upgrade dari versi 2.x ke v3.2.0 — <span class="font-semibold text-white">Rp375.000</span> (termasuk instalasi &amp; migrasi data).
+                  </p>
+                  <p class="text-xs text-amber-400 mt-1.5">
+                    <i class="fas fa-exclamation-triangle mr-1"></i> Versi 2.x tidak lagi mendapat pembaruan; segera upgrade agar tetap aman &amp; kompatibel.
+                  </p>
+                  <p class="text-xs text-emerald-400 mt-1.5">
+                    <i class="fas fa-gift mr-1"></i> Bonus: instalasi SPMB v1.0.3
+                  </p>
+                </div>
+                <a href="https://wa.me/6285759888922" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition shrink-0">
+                  <i class="fab fa-whatsapp"></i> Hubungi
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
+              <a href="mailto:4ntonsofyan@gmail.com" class="bg-slate-800 rounded-xl p-5 hover:bg-slate-700 transition">
+                <i class="fas fa-envelope text-indigo-400 mb-3"></i>
+                <div class="text-sm font-medium mb-1">Email</div>
+                <div class="text-sm text-slate-400">4ntonsofyan@gmail.com</div>
+              </a>
+              <a href="https://wa.me/6285759888922" target="_blank" rel="noopener" class="bg-slate-800 rounded-xl p-5 hover:bg-slate-700 transition">
+                <i class="fab fa-whatsapp text-emerald-400 mb-3"></i>
+                <div class="text-sm font-medium mb-1">WhatsApp</div>
+                <div class="text-sm text-slate-400">0857 5988 8922</div>
+              </a>
+              <a href="https://www.facebook.com/antonsofyan/" target="_blank" rel="noopener" class="bg-slate-800 rounded-xl p-5 hover:bg-slate-700 transition">
+                <i class="fab fa-facebook text-blue-400 mb-3"></i>
+                <div class="text-sm font-medium mb-1">Facebook</div>
+                <div class="text-sm text-slate-400">Anton Sofyan</div>
+              </a>
+              <a href="https://www.facebook.com/groups/cmssekolahku" target="_blank" rel="noopener" class="bg-slate-800 rounded-xl p-5 hover:bg-slate-700 transition">
+                <i class="fas fa-users text-blue-400 mb-3"></i>
+                <div class="text-sm font-medium mb-1">Group Diskusi</div>
+                <div class="text-sm text-slate-400">Facebook Group</div>
+              </a>
+            </div>
+            <a href="https://wa.me/6285759888922" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition">
+              <i class="fab fa-whatsapp"></i> Konsultasi via WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- FOOTER -->
-  <footer class="bg-gray-900 text-gray-400 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-8">
-        <div class="lg:col-span-2">
-          <div class="flex items-center gap-2 mb-4">
-            <span class="font-bold text-xl text-white">sekolahku</span><span class="text-gray-500">.web.id</span>
+  <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+        <div>
+          <div class="font-bold text-lg text-white mb-3">
+            <span class="text-indigo-400">sekolahku</span>.web.id
           </div>
-          <p class="text-sm leading-relaxed text-gray-400">Ekosistem aplikasi open source untuk sekolah Indonesia — CMS Sekolahku untuk website profil dan SPMB Online untuk penerimaan murid baru. Modern, aman, dan gratis selamanya.</p>
-          <p class="text-xs text-gray-500 mt-4 leading-relaxed">Dikembangkan oleh <strong class="text-gray-400">Anton Sofyan</strong></p>
-          <div class="grid grid-cols-4 gap-2 mt-4 max-w-lg">
-            <div class="bg-gray-800/50 rounded-xl p-2.5 text-center border border-gray-700/50">
-              <div class="text-lg font-extrabold text-white">15+</div>
-              <div class="text-[9px] text-gray-400 mt-0.5 leading-tight">Tahun Pengalaman</div>
-            </div>
-            <div class="bg-gray-800/50 rounded-xl p-2.5 text-center border border-gray-700/50">
-              <div class="text-lg font-extrabold text-white">13+</div>
-              <div class="text-[9px] text-gray-400 mt-0.5 leading-tight">Tahun Open Source</div>
-            </div>
-            <div class="bg-gray-800/50 rounded-xl p-2.5 text-center border border-gray-700/50">
-              <div class="text-lg font-extrabold text-white">1.842</div>
-              <div class="text-[9px] text-gray-400 mt-0.5 leading-tight">Sekolah Menggunakan CMS Sekolahku</div>
-            </div>
-            <div class="bg-gray-800/50 rounded-xl p-2.5 text-center border border-gray-700/50">
-              <div class="text-lg font-extrabold text-white">10K+</div>
-              <div class="text-[9px] text-gray-400 mt-0.5 leading-tight">Berpengalaman dengan 10K+ Pengguna Aktif</div>
-            </div>
-          </div>
+          <p class="text-sm leading-relaxed">
+            Ekosistem aplikasi open source untuk sekolah Indonesia. CMS website profil &amp; SPMB online. Gratis selamanya.
+          </p>
+          <p class="text-xs text-slate-500 mt-4">Dikembangkan oleh Anton Sofyan</p>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">CMS</h4>
+          <h4 class="font-semibold text-white mb-3 text-sm">CMS Sekolahku</h4>
           <ul class="space-y-2 text-sm">
             <li><a href="#fitur" class="hover:text-white transition">Halaman Statis</a></li>
-            <li><a href="#fitur" class="hover:text-white transition">Manajemen Berita</a></li>
-            <li><a href="#fitur" class="hover:text-white transition">Menu Navigasi Drag-Drop</a></li>
-            <li><a href="#fitur" class="hover:text-white transition">10 Tema Warna + Dark Mode</a></li>
+            <li><a href="#fitur" class="hover:text-white transition">3 Tema Tampilan</a></li>
+            <li><a href="#fitur" class="hover:text-white transition">Berita &amp; Agenda</a></li>
+            <li><a href="#fitur" class="hover:text-white transition">Galeri &amp; Prestasi</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">SPMB</h4>
+          <h4 class="font-semibold text-white mb-3 text-sm">SPMB</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#fitur" class="hover:text-white transition">Multi-Level Sekolah</a></li>
-            <li><a href="#fitur" class="hover:text-white transition">Sistem Persyaratan Hybrid</a></li>
-            <li><a href="#teknologi" class="hover:text-white transition">Keamanan Berlapis</a></li>
-            <li><a href="#fitur" class="hover:text-white transition">Pemulihan Data Terhapus</a></li>
+            <li><a href="#fitur" class="hover:text-white transition">Multi-Jenjang 7</a></li>
+            <li><a href="#fitur" class="hover:text-white transition">Persyaratan Hybrid</a></li>
+            <li><a href="#kepercayaan" class="hover:text-white transition">Keamanan Berlapis</a></li>
+            <li><a href="#fitur" class="hover:text-white transition">Pemulihan Data</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">Lainnya</h4>
+          <h4 class="font-semibold text-white mb-3 text-sm">Lainnya</h4>
           <ul class="space-y-2 text-sm">
             <li>
-              <a href="https://rector.id/" target="_blank" class="hover:text-white transition font-medium">Rector.id</a>
-              <span class="text-xs text-gray-500 block mt-0.5">Inisiatif Open Source untuk Pendidikan Tinggi Indonesia</span>
-              <ul class="mt-2 space-y-1 pl-3 border-l border-gray-700">
-                <li><a href="https://rector.id/" target="_blank" class="text-xs text-gray-400 hover:text-white transition">Admission System</a> <span class="text-xs text-gray-600">— PMB untuk Perguruan Tinggi</span></li>
-                <li><a href="https://rector.id/" target="_blank" class="text-xs text-gray-400 hover:text-white transition">Feeder Helper</a> <span class="text-xs text-gray-600">— Sinkronisasi PDDIKTI</span></li>
+              <a href="https://rector.id/" target="_blank" rel="noopener" class="hover:text-white transition font-medium">Rector.id</a>
+              <span class="text-xs text-slate-500 block mt-0.5">Inisiatif Open Source untuk Pendidikan Tinggi Indonesia</span>
+              <ul class="mt-2 space-y-1 pl-3 border-l border-slate-700">
+                <li><a href="https://rector.id/" target="_blank" rel="noopener" class="text-xs text-slate-400 hover:text-white transition">Admission System</a> <span class="text-xs text-slate-600">— PMB untuk Perguruan Tinggi</span></li>
+                <li><a href="https://rector.id/" target="_blank" rel="noopener" class="text-xs text-slate-400 hover:text-white transition">Feeder Helper</a> <span class="text-xs text-slate-600">— Sinkronisasi PDDIKTI</span></li>
               </ul>
             </li>
+            <li><a href="https://www.facebook.com/groups/cmssekolahku" target="_blank" rel="noopener" class="hover:text-white transition">Komunitas Facebook</a></li>
+            <li><a href="mailto:4ntonsofyan@gmail.com" class="hover:text-white transition">Email</a></li>
+            <li><a href="https://wa.me/6285759888922" target="_blank" rel="noopener" class="hover:text-white transition">WhatsApp</a></li>
           </ul>
         </div>
       </div>
-      <div class="border-t border-gray-800 mt-10 pt-8 text-center text-sm">
-        <p>Copyright &copy; 2013 - 2026 <a href="https://sekolahku.web.id/" class="text-indigo-400 hover:text-indigo-300">sekolahku.web.id</a> All rights reserved.</p>
-        <p class="mt-1">Developed with <i class="fas fa-heart text-red-500"></i> by <a href="http://sekolahku.web.id" class="text-indigo-400 hover:text-indigo-300">sekolahku.web.id</a></p>
+      <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+        <p>Copyright &copy; 2013 - 2026 <a href="https://sekolahku.web.id/" class="text-indigo-400 hover:text-indigo-300">sekolahku.web.id</a>. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <button id="toTop" class="fixed bottom-6 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-indigo-700 transition opacity-0 invisible z-50">
-    <i class="fas fa-angle-up"></i>
+  <button id="toTop" class="fixed bottom-6 right-6 w-11 h-11 bg-indigo-600 text-white rounded-lg shadow-lg flex items-center justify-center hover:bg-indigo-700 transition opacity-0 invisible z-50">
+    <i class="fas fa-chevron-up text-sm"></i>
   </button>
 
   <script>
     const btn = document.getElementById('toTop');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) { btn.classList.remove('opacity-0', 'invisible'); btn.classList.add('opacity-100', 'visible'); }
-      else { btn.classList.remove('opacity-100', 'visible'); btn.classList.add('opacity-0', 'invisible'); }
+      if (window.scrollY > 400) { btn.classList.remove('opacity-0','invisible'); btn.classList.add('opacity-100','visible'); }
+      else { btn.classList.remove('opacity-100','visible'); btn.classList.add('opacity-0','invisible'); }
     });
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   </script>
